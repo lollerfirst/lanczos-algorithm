@@ -51,7 +51,7 @@ def dnc_eigenvalues(T: np.matrix):
 
     [d, v] = sorted(zip(d, v), lambda x: x[0]) # Sort the diagonal values
 
-    # (D + bzz^T)v = 0 ==> 1 + bz^T(D - vI)^-1 = 0 ==> 1 - b SUM_k=1^n (z_k^2 / (v - d_k)) = 0
+    # (D + bvv^T)x = 0 ==> 1 + bv^T(D - lI)^-1 = 0 ==> 1 - b SUM_k=1^n (v_k^2 / (l - d_k)) = 0
     # Search in between the intervals of values of d
     eigenvalues = np.empty(d.size)
 
