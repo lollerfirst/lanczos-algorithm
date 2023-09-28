@@ -80,10 +80,10 @@ def dnc_eigenvalues(T: np.matrix):
         c_2_hat = b*psi(v, d, l, i+1, n) - tmp*(d[i+1] - l)
 
         c_3 = 1 + c_1_hat + c_2_hat
-
+        
         while err > epsilon:
-            
-
+            # ... TBC        
+    
 
     
     return Q, eigenvalues
