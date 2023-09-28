@@ -56,7 +56,9 @@ def dnc_eigenvalues(T: np.matrix):
     eigenvalues = np.empty(d.size)
 
     for i in range(n):
-        
+
+        # We know the eigenvalues reside in between intervals d[0] < l_0 < d[1] < l_1 < ... < l_(n-1)
+        # if b is positive, otherwise: l_0 < d[0] < l_1 < d[1] < ... < d[n-1]
         if b > 0:
             if i < n-1:
                 l = random.uniform(d[i], d[i+1])
