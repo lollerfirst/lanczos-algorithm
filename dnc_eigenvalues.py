@@ -1,5 +1,6 @@
 import numpy as np
 import random
+from math import abs
 
 epsilon = 1e-10
 
@@ -9,13 +10,14 @@ def psi(v, d, l, start, stop):
         x += (v[k]**2) / (d[start] - l)
     return x
 
+# derivative of psi wrt l (the eigenvalue)
 def dpsi_dl(v, d, l, start, stop):
     x = 0
     for k in range(start, stop):
         x += (v[k]**2) / ((d[start] - l)**2)
     return x
 
-# https://people.inf.ethz.ch/arbenz/ewp/Lnotes/chapters5-6.pdf
+# Reference: https://people.inf.ethz.ch/arbenz/ewp/Lnotes/chapters5-6.pdf
 
 def dnc_eigenvalues(T: np.matrix):
     [n, m] = T.shape
@@ -27,18 +29,17 @@ def dnc_eigenvalues(T: np.matrix):
         [Q1, T1] = solve_base(T)
 
 
-    r1 = n >> 1
-    r2 = m >> 1
-
-    assert T[r1, r2-1] == T[r1-1, r2], "Not a tridiagonal Matrix!"
-    b = T[r1, r2-1]
+    r = n >> 1
+    
+    assert T[r, r-1] == T[r-1, r], "Not a tridiagonal Matrix!"
+    b = T[r, r-1]
 
     # Divide
-    T1 = T[:r1, :r2]
-    T2 = T[r1:, r2:]
+    T1 = T[:r, :r]
+    T2 = T[r:, r:]
 
     # rank-1 correction:
-    T1[r1-1, r2-1] -= b
+    T1[r-1, r-1] -= b
     T2[0, 0] -= b
 
     # Recursion
@@ -52,11 +53,12 @@ def dnc_eigenvalues(T: np.matrix):
     [d, v] = sorted(zip(d, v), lambda x: x[0]) # Sort the diagonal values
 
     # (D + bzz^T)v = 0 ==> 1 + bz^T(D - vI)^-1 = 0 ==> 1 - b SUM_k=1^n (z_k^2 / (v - d_k)) = 0
-    # Search in between the intervals of values of d
-    eigenvalues = np.empty(d.size)
+    eig = np.empty(n)
+    X = np.empty((n,n))
 
     for i in range(n):
         
+        # Choosing random values in between the search intervals or close to d if at the edge.
         if b > 0:
             if i < n-1:
                 l = random.uniform(d[i], d[i+1])
@@ -69,21 +71,37 @@ def dnc_eigenvalues(T: np.matrix):
                 l = random.uniform(d[0]-1, d[0])
 
         
-        err = float(0x7FFFFFFF)
+        err = float("inf")          # Initialize error to infinity
 
-        tmp = b*dpsi_dl(v, d, l, 0, i)
-        c_1 = tmp*((d[i] - l)**2)
-        c_1_hat = b*psi(v, d, l, 0, i) - tmp*(d[i] - l)
-        
-        tmp = b*dpsi_dl(v, d, l, i+1, n)
-        c_2 = tmp*((d[i+1] - l)**2)
-        c_2_hat = b*psi(v, d, l, i+1, n) - tmp*(d[i+1] - l)
+        while abs(err) >= epsilon:
 
-        c_3 = 1 + c_1_hat + c_2_hat
-
-        while err > epsilon:
+            tmp = b*dpsi_dl(v, d, l, 0, i)
+            c_1 = tmp*((d[i] - l)**2)
+            c_1_hat = b*psi(v, d, l, 0, i) - tmp*(d[i] - l)         # (5.28)
             
+            tmp = b*dpsi_dl(v, d, l, i+1, n)
+            c_2 = tmp*((d[i+1] - l)**2)
+            c_2_hat = b*psi(v, d, l, i+1, n) - tmp*(d[i+1] - l)     # (5.29)
 
+            c_3 = 1 + c_1_hat + c_2_hat
+            err = c_3 + c_1 / (d[i] - l) + c_2 / (d[i+1] - l)       # (5.30) see also (5.25) (5.26)
 
-    
-    return Q, eigenvalues
+            # Newton iteration l_(n+1) = l_n - h(l_n) / h'(l_n)
+            l = l - err / ( c_1 / ((d[i] - l)**2) + c_2 / ((d[i+1] - l)**2) )
+        
+        # We now have eigenvalue l
+        eig[i] = l
+
+        # Calculate eigenvector for l
+        x = np.array([(1/(l - d[k]))*v[k] for k in range(n)])       # (5.15)
+        x = np.linalg.norm(x)
+
+        # Record eigenvector into Q
+        Q[:,i] = x.T
+
+    Q = np.zeros(n,n)
+    Q[:r, :r] = Q1
+    Q[r:, r:] = Q2
+    Q = np.matmul(Q, X)
+
+    return Q, eig
