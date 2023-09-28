@@ -1,3 +1,5 @@
+# NOTE: This is NOT the Block-Lanczos algorithm for computing the nullspace but rather the Lanczos algorithm for extracting the tridiagonal matrix.
+
 import numpy as np
 
 def block_lanczos(A, tolerance=1e-10):
