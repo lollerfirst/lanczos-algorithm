@@ -26,8 +26,7 @@ def dnc_eigenvalues(T: np.matrix):
     
     # Base case
     if n <= 2:
-        [Q1, T1] = solve_base(T)
-
+        return solve_base(T)
 
     r = n >> 1
     
@@ -95,10 +94,10 @@ def dnc_eigenvalues(T: np.matrix):
 
         # Calculate eigenvector for l
         x = np.array([(1/(l - d[k]))*v[k] for k in range(n)])       # (5.15)
-        x = np.linalg.norm(x)
+        x /= np.linalg.norm(x)
 
         # Record eigenvector into Q
-        Q[:,i] = x.T
+        X[:,i] = x.T
 
     Q = np.zeros(n,n)
     Q[:r, :r] = Q1
