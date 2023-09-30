@@ -10,11 +10,11 @@ The Lanczos algorithm is an iterative method used to approximate the eigenvalues
 
    ## Iteration:
    * At each iteration, we perform the following steps:
-     1. Compute Av, where A is the input matrix and v is the current vector.
+     1. Compute $Av$, where $A$ is the input matrix and $v$ is the current vector.
      2. Compute the inner product $a = v^T \cdot Av$.
 
      3. Compute the residual vector $w = Av - av$.
-     4. Orthogonalize $w$ with respect to all previously generated vectors in the orthogonal basis set using the Gram-Schmidt process.
+     4. Orthogonalize $w$ with respect to all previously generated vectors in the orthogonal basis set using the *Gram-Schmidt process* or *Householder reflections*.
      5. Normalize $w$ to obtain the next vector $v$.
      6. Update the tridiagonal matrix $T$ with the computed values $a$ and the norm of $w$ as off-diagonal elements.
 
