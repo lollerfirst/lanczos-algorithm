@@ -69,7 +69,9 @@ Then, since the spectral decomposition of $T$ is:
 T = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0\Lambda Q_0^T \begin{bmatrix} Q_1^T &\\ & Q_2^T \end{bmatrix}
 ```
 
-finding the eigenvectors is a matter of finding ```math
+finding the eigenvectors is a matter of finding 
+
+```math
 Q = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0
 ```
 
