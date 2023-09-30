@@ -37,16 +37,27 @@ The key advantage of having a tridiagonal matrix $T$ is that it simplifies the p
 
 # Divide-and-Conquer Approach
 
-The divide-and-conquer method is a technique used to find the eigenvalues of a tridiagonal matrix. It works as follows:
+The divide-and-conquer method is a technique used to find the eigenvalues of a tridiagonal matrix. The code and method presented closely follows https://people.inf.ethz.ch/arbenz/ewp/Lnotes/chapters5-6.pdf
+
+It works as follows:
 
 ## Partition:
 Given the tridiagonal matrix $T$, we split it into two smaller tridiagonal matrices, $T1$ and $T2$, by removing a row and a column at a certain position (usually the middle).
+Apply a *rank-1* correction to both $T1$ and $T2$: subtract the off-diagonal term $\beta$ that was cut outside the division of $T$ into the two smaller sub-matrices from the last diagonal (bottom-right) element of $T1$ and the first (top-left) diagonal element of $T2$.  
 
 ## Eigenvalue Computation:
-Find the eigenvalues of $T1$ and $T2$ separately. These eigenvalues will approximate the eigenvalues of the original matrix $A$.
+Recursively calling the method on the two smaller submatrices $T_1$ and $T_2$ will yield $Q_1, Q_2$ and $D_1, D_2$ respectively the eigenvectors and eigenvalues of submatrices $T_1, T_2$.
 
 ## Conquer:
-Combine the eigenvalues of $T1$ and $T2$ to obtain the eigenvalues of $A$.
+Combine the eigenvalues of $T_1$ and $T_2$ to obtain the eigenvalues of $T$. In particular, let $v^T$ be the real vector composed by concatenating the last row of $Q_1$ with the first row of $Q_2$ and $D = \begin{bmatrix} D_1 &\\ & D_2 \end{bmatrix}$, then $Q_0\Lambda Q_0^T = D + \beta vv^T$, where $\Lambda$ is the matrix of eigenvalues for $T$ and columns of $Q_0$ are set of orthonormal vectors. Finding the eigenvalues is then a matter of solving the *Secular Equation*, formally: 
+
+$f(\lambda) := 1 - \beta \sum_{k=1}^{n}{\frac{v_k^2}{\lambda - d_k}} = 0$
+
+While the columns of $Q_0$ are easily obtainable as:
+
+$q = \frac{(D-\lambda I)^{-1}v}{||(D-\lambda I)^{-1}v||}$
+
+Then, since the spectral decomposition of $T$ is $T = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q\Lambda Q^T \begin{bmatrix} Q_1^T &\\ & Q_2^T \end{bmatrix}$ finding the eigenvectors is a matter of finding $Q = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0$.
 
 ## Repeat:
 Repeat the partitioning and eigenvalue computation process recursively until you have the eigenvalues of the original matrix A to the desired precision.
