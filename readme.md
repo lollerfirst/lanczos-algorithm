@@ -42,8 +42,8 @@ The divide-and-conquer method is a technique used to find the eigenvalues of a t
 It works as follows:
 
 ## Partition:
-Given the tridiagonal matrix $T$, we split it into two smaller tridiagonal matrices, $T1$ and $T2$, by removing a row and a column at a certain position (usually the middle).
-Apply a *rank-1* correction to both $T1$ and $T2$: subtract the off-diagonal term $\beta$ that was cut outside the division of $T$ into the two smaller sub-matrices from the last diagonal (bottom-right) element of $T1$ and the first (top-left) diagonal element of $T2$.  
+Given the tridiagonal matrix $T$, we split it into two smaller tridiagonal matrices, $T_1$ and $T_2$, by removing a row and a column at a certain position (usually the middle).
+Apply a *rank-1* correction to both $T_1$ and $T_2$: subtract the off-diagonal term $\beta$ that was cut outside the division of $T$ into the two smaller sub-matrices from the last diagonal (bottom-right) element of $T_1$ and the first (top-left) diagonal element of $T_2$.  
 
 ## Eigenvalue Computation:
 Recursively calling the method on the two smaller submatrices $T_1$ and $T_2$ will yield $Q_1, Q_2$ and $D_1, D_2$ respectively the eigenvectors and eigenvalues of submatrices $T_1, T_2$.
@@ -57,11 +57,15 @@ While the columns of $Q_0$ are easily obtainable as:
 
 $q = \frac{(D-\lambda I)^{-1}v}{||(D-\lambda I)^{-1}v||}$
 
-Then, since the spectral decomposition of $T$ is $T = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q\Lambda Q^T \begin{bmatrix} Q_1^T &\\ & Q_2^T \end{bmatrix}$ finding the eigenvectors is a matter of finding $Q = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0$.
+Then, since the spectral decomposition of $T$ is:
+
+$T = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0\Lambda Q_0^T \begin{bmatrix} Q_1^T &\\ & Q_2^T \end{bmatrix}$
+
+finding the eigenvectors is a matter of finding $Q = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0$.
 
 ## Repeat:
-Repeat the partitioning and eigenvalue computation process recursively until you have the eigenvalues of the original matrix A to the desired precision.
+Repeat the partitioning and eigenvalue computation process recursively until you have the eigenvalues of the original matrix $A$ to the desired precision.
 
 ## Conclusion
 
-In summary, the Lanczos algorithm is an iterative method for approximating the eigenvalues and eigenvectors of a real, symmetric matrix A. It constructs an orthogonal basis set V and a tridiagonal matrix T. The tridiagonal matrix T can be used in a divide-and-conquer approach to efficiently compute the eigenvalues of A. This technique is particularly useful when dealing with large sparse matrices, where direct diagonalization may be impractical.
+In summary, the Lanczos algorithm is an iterative method for approximating the eigenvalues and eigenvectors of a real, symmetric matrix $A$. It constructs an orthogonal basis set $V$ and a tridiagonal matrix $T$. The tridiagonal matrix $T$ can be used in a divide-and-conquer approach to efficiently compute the eigenvalues of $A$. This technique is particularly useful when dealing with large sparse matrices, where direct diagonalization may be impractical.
