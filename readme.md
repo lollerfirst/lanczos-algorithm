@@ -49,19 +49,20 @@ Apply a *rank-1* correction to both $T_1$ and $T_2$: subtract the off-diagonal t
 Recursively calling the method on the two smaller submatrices $T_1$ and $T_2$ will yield $Q_1, Q_2$ and $D_1, D_2$ respectively the eigenvectors and eigenvalues of submatrices $T_1, T_2$.
 
 ## Conquer:
-Combine the eigenvalues of $T_1$ and $T_2$ to obtain the eigenvalues of $T$. In particular, let $v^T$ be the real vector composed by concatenating the last row of $Q_1$ with the first row of $Q_2$ and $D = \begin{bmatrix} D_1 &\\ & D_2 \end{bmatrix}$, then $Q_0\Lambda Q_0^T = D + \beta vv^T$, where $\Lambda$ is the matrix of eigenvalues for $T$ and columns of $Q_0$ are set of orthonormal vectors. Finding the eigenvalues is then a matter of solving the *Secular Equation*, formally: 
+Combine the eigenvalues of $T_1$ and $T_2$ to obtain the eigenvalues of $T$. In particular, let $v^T$ be the real vector composed by concatenating the last row of $Q_1$ with the first row of $Q_2$ and $$D = \begin{bmatrix} D_1 &\\ & D_2 \end{bmatrix}$$
+then $Q_0\Lambda Q_0^T = D + \beta vv^T$, where $\Lambda$ is the matrix of eigenvalues for $T$ and columns of $Q_0$ are set of orthonormal vectors. Finding the eigenvalues is then a matter of solving the *Secular Equation*, formally: 
 
-$f(\lambda) := 1 - \beta \sum_{k=1}^{n}{\frac{v_k^2}{\lambda - d_k}} = 0$
+$$f(\lambda) := 1 - \beta \sum_{k=1}^{n}{\frac{v_k^2}{\lambda - d_k}} = 0$$
 
 While the columns of $Q_0$ are easily obtainable as:
 
-$q = \frac{(D-\lambda I)^{-1}v}{||(D-\lambda I)^{-1}v||}$
+$$q = \frac{(D-\lambda I)^{-1}v}{||(D-\lambda I)^{-1}v||}$$
 
 Then, since the spectral decomposition of $T$ is:
 
-$T = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0\Lambda Q_0^T \begin{bmatrix} Q_1^T &\\ & Q_2^T \end{bmatrix}$
+$$ T = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0\Lambda Q_0^T \begin{bmatrix} Q_1^T &\\ & Q_2^T \end{bmatrix} $$
 
-finding the eigenvectors is a matter of finding $Q = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0$.
+finding the eigenvectors is a matter of finding $$ Q = \begin{bmatrix} Q_1 &\\ & Q_2 \end{bmatrix} Q_0 $$
 
 ## Repeat:
 Repeat the partitioning and eigenvalue computation process recursively until you have the eigenvalues of the original matrix $A$ to the desired precision.
