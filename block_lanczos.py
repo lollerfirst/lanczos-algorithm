@@ -34,7 +34,7 @@ def block_lanczos(A, tolerance=1e-10):
             v = np.random.randn(n)
             v = v.T
             for j in range(i):
-                v -= (np.dot(V[:, j], v) / np.linalg.norm(V[:, j], ord=2)) * V[:, j]  # Gram-Schmidt Process
+                v -= (np.dot(V[:, j], v) / (np.linalg.norm(V[:, j]) * np.linalg.norm(V[:, j]))) * V[:, j]  # Gram-Schmidt Process
         
         V[:,i] = v
         u = np.matmul(A, v)
