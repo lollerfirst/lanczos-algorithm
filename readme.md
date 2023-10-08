@@ -28,8 +28,8 @@ The Lanczos algorithm is an iterative method used to approximate the eigenvalues
      - If it's lower, then select a new random vector $\mathbf{v}_i$ orthogonal to all previous $\mathbf{w}_1, \mathbf{w}_2, \ldots, \mathbf{w}_i$ using the *Gram-Schmidt* process.
   3. Set $\mathbf{v}_i$ as the $i$-th column of $V$.
   4. Compute $\mathbf{u}_{i+1} = A\mathbf{v}_i$
-  5. Compute $a_{i+1} = \mathbf{u}_{i+1}^T \mathbf{v}_i$
-  6. Compute $\mathbf{w}_{i+1} = \mathbf{u} - a_{i+1} \mathbf{v_i} - b_{i} \mathbf{v}_{i-1}$
+  5. Compute $a_{i+1} = \mathbf{u}_{i+1}^T \mathbf{v}_i $
+  6. Compute $ \mathbf{w}_{i+1} = \mathbf{u} - a_{i+1} \mathbf{v_i} - b_{i} \mathbf{v}_{i-1} $
   7. Update the tridiagonal matrix $T$ with the computed values $a_{i+1}$ as diagonal entry and the norm $b_i$ as off-by-1 diagonal entries.
 
 ## Repeat:
