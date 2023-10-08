@@ -10,7 +10,7 @@ The Lanczos algorithm is an iterative method used to approximate the eigenvalues
 * Normalize $\mathbf{v}$ to have a unit length.
 * Compute $\mathbf{u} = A\mathbf{v}$.
 * Set $\mathbf{v}$ as the first column vector of the matrix $V$
-* Compute $ a = \mathbf{u}^T \mathbf{v}$
+* Compute $a = \mathbf{u}^T \mathbf{v}$
 * Set the first diagonal entry of $T$ to $a$
 * Compute $w$ as the residual between $u$ and its projection onto $v$ :
 
