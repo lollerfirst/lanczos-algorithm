@@ -35,6 +35,7 @@ The Lanczos algorithm is an iterative method used to approximate the eigenvalues
 ```math
 \mathbf{w}_{i+1} = \mathbf{u}_{i+1} - a_{i+1} \mathbf{v}_i - b_{i} \mathbf{v}_{i-1}
 ```
+* ...
   7. Update the tridiagonal matrix $T$ with the computed values $a_{i+1}$ as diagonal entry and the norm $b_i$ as off-by-1 diagonal entries.
 
 ## Repeat:
