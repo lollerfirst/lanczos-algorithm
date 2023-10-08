@@ -26,7 +26,7 @@ The Lanczos algorithm is an iterative method used to approximate the eigenvalues
   2. Confront the norm $b_i$ with respect to a tolerance (or machine precision) $\epsilon$:
      
      - If it's bigger, then compute $\mathbf{v}_i = \frac{\mathbf{w}_i}{ b_i} $.
-     - If it's lower, then select a new random vector $\mathbf{v}_i$ orthogonal to all previous $\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_i$ using the *Gram-Schmidt* process.
+     - If it's lower, then select a new random vector $\mathbf{v}_i$ orthogonal to all previous $\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_{i-1}$ using the *Gram-Schmidt* process.
   3. Set $\mathbf{v}_i$ as the $i$-th column of $V$.
   4. Compute $\mathbf{u}_{i+1} = A\mathbf{v}_i$
   5. Compute $a_{i+1} = \mathbf{u}_{i+1}^T \mathbf{v}_i $
