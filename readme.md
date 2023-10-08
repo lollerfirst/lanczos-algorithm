@@ -26,8 +26,8 @@ The Lanczos algorithm is an iterative method used to approximate the eigenvalues
   2. Confront the norm $b$ with respect to a tolerance (or machine precision) $\epsilon$:
      - If it's bigger, then compute $\mathbf{v}_i = \frac{\mathbf{w}_i}{ b} $.
      - If it's lower, then select a new random vector $\mathbf{v}_i$ orthogonal to all previous $\mathbf{w}_1, \mathbf{w}_2, \ldots, \mathbf{w}_i$ using the *Gram-Schmidt* process.
-  3. Set $\mathbf{v}_i$ as the $i$-th column of V.
-  4. Compute $\mathbf{u}_{i+1}$ from $\mathbf{v}_i$: $\mathbf{u}_{i+1} = A\mathbf{v}_i$
+  3. Set $\mathbf{v}_i$ as the $i$-th column of $V$.
+  4. Compute $\mathbf{u}_{i+1} = A\mathbf{v}_i$
   5. Compute $\mathbf{a}_{i+1} = \mathbf{u}_{i+1}^T\mathbf{v}_i$
   6. Compute $\mathbf{w}_{i+1} = \mathbf{u} - a\mathbf{v_i} - b\mathbf{v}_{i-1}$
   7. Update the tridiagonal matrix $T$ with the computed values $a$ as diagonal entry and the norm $b$ as off-by-1 diagonal entries.
